@@ -81,7 +81,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib:$compile_buildpack
 
 cd $BUILD_DIR
 status "Building Package"
-swift build -Xcc -fblocks --configuration release | indent
+swift build -Xcc -fblocks -Xswiftc -I/usr/local/include -Xlinker -L/usr/local/lib --configuration release | indent
 
 # These should be statically linked, seems a swift bug
 status "Copying dynamic libraries"
