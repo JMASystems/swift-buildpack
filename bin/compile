@@ -65,6 +65,8 @@ mkdir -p $BUILD_DIR/.swift-lib
 cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
 cp $compile_buildpack_dir/compile-extensions/libkqueue.so.0 $BUILD_DIR/.swift-lib
 cp $compile_buildpack_dir/compile-extensions/libbsd.so.0 $BUILD_DIR/.swift-lib
+cp $compile_buildpack_dir/compile-extensions/libBlocksRuntime.so.0 $BUILD_DIR/.swift-lib
+
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib:$compile_buildpack_dir/compile-extensions/
 
 var2=$(ldd $compile_buildpack_dir/compile-extensions/libdispatch.so)
