@@ -57,10 +57,13 @@ CLANG_PATH=$CACHE_DIR/$(echo $CLANG_NAME_VERSION/clang*)
 
 export PATH="$SWIFT_PATH/usr/bin:$CLANG_PATH/bin:$PATH"
 
+echo find / -name *.swiftmodule
+
 cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $BUILD_DIR/.swift-lib
 cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
 cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $SWIFT_PATH/usr/lib/swift/linux/x86_64/
 
+echo find / -name *.swiftmodule
 
 cd $BUILD_DIR
 status "Building Package"
