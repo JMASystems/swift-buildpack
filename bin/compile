@@ -14,6 +14,8 @@ CACHE_DIR=$2
 DEFAULT_SWIFT_VERSION=DEVELOPMENT-SNAPSHOT-2016-03-01-a
 CLANG_VERSION=3.7.0
 
+
+
 if [ -f $BUILD_DIR/.swift-version ]; then
   # Take any pinned Swift version, stripping any redundant `swift-` prefix if present
   SWIFT_VERSION=$(cat $BUILD_DIR/.swift-version | sed -e "s/swift-//")
@@ -34,6 +36,21 @@ BUILDPACK_PATH=$compile_buildpack_dir source $compile_buildpack_dir/compile-exte
 
 mkdir -p $CACHE_DIR
 cd $CACHE_DIR
+
+# Setup application environment
+PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
+mkdir -p $BUILD_DIR/.profile.d
+
+set-env() {
+  echo "export $1=$2" >> $PROFILE_PATH
+}
+set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
+cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
+lddresult = $(ldd $HOME/.swift-lib/libdispatch.so)
+echo "$lddresult"
+
+exit
+
 
 # download and unpack swift
 if [[ ! -d "$CACHE_DIR/$SWIFT_NAME_VERSION" ]]; then
@@ -62,15 +79,7 @@ cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftdoc $SWIFT_PATH/usr/l
 
 var=$(ls $SWIFT_PATH/usr/lib/swift/linux/x86_64/)
 echo "$var"
-# Setup application environment
-PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
-mkdir -p $BUILD_DIR/.profile.d
 
-set-env() {
-  echo "export $1=$2" >> $PROFILE_PATH
-}
-set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
-cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
 
 cd $BUILD_DIR
 status "Building Package"
