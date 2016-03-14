@@ -70,7 +70,8 @@ set-env() {
 set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
 set-env PATH '$HOME/.swift-bin:$PATH'
 
-cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
+mkdir -p $BUILD_DIR/.swift-lib
+cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
 
 var2=$(ldd $HOME/.swift-lib/libdispatch.so)
 echo "$var2"
@@ -81,7 +82,6 @@ swift build --configuration release | indent
 
 # These should be statically linked, seems a swift bug
 status "Copying dynamic libraries"
-mkdir -p $BUILD_DIR/.swift-lib
 cp $SWIFT_PATH/usr/lib/swift/linux/*.so $BUILD_DIR/.swift-lib
 
 #cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $BUILD_DIR/.swift-lib
