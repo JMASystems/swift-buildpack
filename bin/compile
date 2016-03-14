@@ -63,6 +63,9 @@ cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftdoc $SWIFT_PATH/usr/l
 var=$(ls $SWIFT_PATH/usr/lib/swift/linux/x86_64/)
 echo "$var"
 
+set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
+cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
+
 cd $BUILD_DIR
 status "Building Package"
 swift build --configuration release | indent
@@ -73,7 +76,7 @@ mkdir -p $BUILD_DIR/.swift-lib
 cp $SWIFT_PATH/usr/lib/swift/linux/*.so $BUILD_DIR/.swift-lib
 
 #cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $BUILD_DIR/.swift-lib
-cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
+
 
 
 status "Copying binaries to 'bin'"
@@ -90,4 +93,3 @@ set-env() {
   echo "export $1=$2" >> $PROFILE_PATH
 }
 set-env PATH '$HOME/.swift-bin:$PATH'
-set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
