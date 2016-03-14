@@ -63,6 +63,9 @@ cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftdoc $SWIFT_PATH/usr/l
 var=$(ls $SWIFT_PATH/usr/lib/swift/linux/x86_64/)
 echo "$var"
 
+set-env() {
+  echo "export $1=$2" >> $PROFILE_PATH
+}
 set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
 cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
 
@@ -89,7 +92,5 @@ rm -rf $BUILD_DIR/.build
 # Setup application environment
 PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
 mkdir -p $BUILD_DIR/.profile.d
-set-env() {
-  echo "export $1=$2" >> $PROFILE_PATH
-}
+
 set-env PATH '$HOME/.swift-bin:$PATH'
