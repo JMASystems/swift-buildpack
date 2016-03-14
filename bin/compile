@@ -67,6 +67,8 @@ cp $compile_buildpack_dir/compile-extensions/libkqueue.so.0 $BUILD_DIR/.swift-li
 cp $compile_buildpack_dir/compile-extensions/libbsd.so.0 $BUILD_DIR/.swift-lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib
 
+var2=$(ls $compile_buildpack_dir/compile-extensions/)
+echo "$var2"
 
 cd $BUILD_DIR
 status "Building Package"
