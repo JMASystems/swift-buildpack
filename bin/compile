@@ -57,11 +57,6 @@ CLANG_PATH=$CACHE_DIR/$(echo $CLANG_NAME_VERSION/clang*)
 
 export PATH="$SWIFT_PATH/usr/bin:$CLANG_PATH/bin:$PATH"
 
-tar -xf $compile_buildpack_dir/compile-extensions/libkqueue-1.0.4.tar && cd libkqueue-1.0.4 && ./configure --with-swift-toolchain=$BUILD_DIR/.swift-lib --prefix=$BUILD_DIR/.swift-lib  && make && make install && cd ..
-tar -xf $compile_buildpack_dir/compile-extensions/libbsd-0.6.0.tar && cd libbsd-0.6.0 && ./configure --with-swift-toolchain=$BUILD_DIR/.swift-lib --prefix=$BUILD_DIR/.swift-lib  && make && make install && cd ..
-tar -xf $compile_buildpack_dir/compile-extensions/libdispatch-0~svn197.tar && cd libdispatch-0~svn197 && ./configure --with-swift-toolchain=$BUILD_DIR/.swift-lib --prefix=$BUILD_DIR/.swift-lib  && make && make install && cd ..
-
-git clone https://github.com/apple/swift-corelibs-libdispatch.git && cd swift-corelibs-libdispatch && git submodule init && git submodule update && sh ./autogen.sh && ./configure --with-swift-toolchain=$BUILD_DIR/.swift-lib --prefix=$BUILD_DIR/.swift-lib && make && make installÅ@&& cd .. && wget http://ftp.exim.org/pub/pcre/pcre2-10.20.tar.gz && tar zxf pcre2-10.20.tar.gz && cd pcre2-10.20 && ./configure && make && make install
 
 cd $BUILD_DIR
 status "Building Package"
@@ -71,6 +66,12 @@ swift build --configuration release | indent
 status "Copying dynamic libraries"
 mkdir -p $BUILD_DIR/.swift-lib
 cp $SWIFT_PATH/usr/lib/swift/linux/*.so $BUILD_DIR/.swift-lib
+
+cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $BUILD_DIR/.swift-lib
+cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
+cd $BUILD_DIR/.swift-lib
+ls
+cd $BUILD_DIR
 
 status "Copying binaries to 'bin'"
 mkdir -p $BUILD_DIR/.swift-bin
