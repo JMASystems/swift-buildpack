@@ -49,7 +49,7 @@ var=$(cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-l
 #var=$(ldd $HOME/.swift-lib/libdispatch.so)
 echo "$var"
 
-exit
+
 # download and unpack swift
 if [[ ! -d "$CACHE_DIR/$SWIFT_NAME_VERSION" ]]; then
   status "Installing Swift $SWIFT_VERSION"
