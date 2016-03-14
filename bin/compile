@@ -60,21 +60,12 @@ export PATH="$SWIFT_PATH/usr/bin:$CLANG_PATH/bin:$PATH"
 cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $SWIFT_PATH/usr/lib/swift/linux/x86_64/
 cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftdoc $SWIFT_PATH/usr/lib/swift/linux/x86_64/
 
-# Setup application environment
-PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
-mkdir -p $BUILD_DIR/.profile.d
-
-set-env() {
-  echo "export $1=$2" >> $PROFILE_PATH
-}
-set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
-set-env PATH '$HOME/.swift-bin:$PATH'
 
 mkdir -p $BUILD_DIR/.swift-lib
 cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
+cp $compile_buildpack_dir/compile-extensions/libkqueue.so.0 $BUILD_DIR/.swift-lib
+cp $compile_buildpack_dir/compile-extensions/libbsd.so.0 $BUILD_DIR/.swift-lib
 
-var2=$(ldd $HOME/.swift-lib/libdispatch.so)
-echo "$var2"
 
 cd $BUILD_DIR
 status "Building Package"
@@ -94,3 +85,13 @@ find $BUILD_DIR/.build/release -type f -perm /a+x -exec cp {} $BUILD_DIR/.swift-
 
 status "Cleaning up build files"
 rm -rf $BUILD_DIR/.build
+
+# Setup application environment
+PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
+mkdir -p $BUILD_DIR/.profile.d
+
+set-env() {
+  echo "export $1=$2" >> $PROFILE_PATH
+}
+set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
+set-env PATH '$HOME/.swift-bin:$PATH'
