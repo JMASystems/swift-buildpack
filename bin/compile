@@ -35,6 +35,21 @@ BUILDPACK_PATH=$compile_buildpack_dir source $compile_buildpack_dir/compile-exte
 mkdir -p $CACHE_DIR
 cd $CACHE_DIR
 
+
+# Setup application environment
+PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
+mkdir -p $BUILD_DIR/.profile.d
+
+set-env() {
+  echo "export $1=$2" >> $PROFILE_PATH
+}
+set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
+var=$(cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib)
+
+#var=$(ldd $HOME/.swift-lib/libdispatch.so)
+echo "$var"
+
+exit
 # download and unpack swift
 if [[ ! -d "$CACHE_DIR/$SWIFT_NAME_VERSION" ]]; then
   status "Installing Swift $SWIFT_VERSION"
@@ -60,18 +75,7 @@ export PATH="$SWIFT_PATH/usr/bin:$CLANG_PATH/bin:$PATH"
 cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $SWIFT_PATH/usr/lib/swift/linux/x86_64/
 cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftdoc $SWIFT_PATH/usr/lib/swift/linux/x86_64/
 
-# Setup application environment
-PROFILE_PATH="$BUILD_DIR/.profile.d/swift.sh"
-mkdir -p $BUILD_DIR/.profile.d
 
-set-env() {
-  echo "export $1=$2" >> $PROFILE_PATH
-}
-set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
-cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
-
-var=$(ldd $HOME/.swift-lib/libdispatch.so)
-echo "$var"
 
 
 cd $BUILD_DIR
