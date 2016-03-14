@@ -78,6 +78,8 @@ cp $compile_buildpack_dir/compile-extensions/os/* $SWIFT_PATH/usr/lib/swift/os
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib:$compile_buildpack_dir/compile-extensions/
 
+var2=$(ls /usr/local/include/)
+echo "$var2"
 
 cd $BUILD_DIR
 status "Building Package"
