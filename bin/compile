@@ -69,8 +69,12 @@ cp $compile_buildpack_dir/compile-extensions/libBlocksRuntime.so.0 $BUILD_DIR/.s
 
 
 mkdir $SWIFT_PATH/usr/lib/swift/dispatch
-cp $compile_buildpack_dir/compile-extensions/dispatch.h $SWIFT_PATH/usr/lib/swift/dispatch
-cp $compile_buildpack_dir/compile-extensions/module.map $SWIFT_PATH/usr/lib/swift/dispatch
+
+mkdir $SWIFT_PATH/usr/lib/swift/dispatch/dispatch
+cp $compile_buildpack_dir/compile-extensions/dispatch/* $SWIFT_PATH/usr/lib/swift/dispatch/dispatch
+
+mkdir $SWIFT_PATH/usr/lib/swift/dispatch/dispatch/os
+cp $compile_buildpack_dir/compile-extensions/os/* $SWIFT_PATH/usr/lib/swift/dispatch/os
 
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib:$compile_buildpack_dir/compile-extensions/
