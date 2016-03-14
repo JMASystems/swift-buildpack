@@ -46,7 +46,7 @@ set-env() {
 }
 set-env LD_LIBRARY_PATH '$HOME/.swift-lib'
 cp $compile_buildpack_dir/compile-extensions/libdispatch.so $HOME/.swift-lib
-var=$(ls $HOME/.swift-lib/)
+var=$(ls $HOME/.swift-lib)
 echo "$var"
 
 var2=$(ldd $HOME/.swift-lib/libdispatch.so)
