@@ -73,7 +73,7 @@ mkdir $SWIFT_PATH/usr/lib/swift/dispatch
 mkdir $SWIFT_PATH/usr/lib/swift/dispatch/dispatch
 cp $compile_buildpack_dir/compile-extensions/dispatch/* $SWIFT_PATH/usr/lib/swift/dispatch/dispatch
 
-mkdir $SWIFT_PATH/usr/lib/swift/dispatch/dispatch/os
+mkdir $SWIFT_PATH/usr/lib/swift/dispatch/os
 cp $compile_buildpack_dir/compile-extensions/os/* $SWIFT_PATH/usr/lib/swift/dispatch/os
 
 
