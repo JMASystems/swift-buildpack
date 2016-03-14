@@ -57,7 +57,7 @@ CLANG_PATH=$CACHE_DIR/$(echo $CLANG_NAME_VERSION/clang*)
 
 export PATH="$SWIFT_PATH/usr/bin:$CLANG_PATH/bin:$PATH"
 
-var='find / -name *.swiftmodule'
+var=$(find / -name *.swiftmodule)
 
 echo "$var"
 
