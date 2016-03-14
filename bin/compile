@@ -57,6 +57,15 @@ CLANG_PATH=$CACHE_DIR/$(echo $CLANG_NAME_VERSION/clang*)
 
 export PATH="$SWIFT_PATH/usr/bin:$CLANG_PATH/bin:$PATH"
 
+apt-get source libdispatch
+apt-get source libbsd
+apt-get source libkqueue
+cd libbsd-0.6.0 && ./configure --prefix=$BUILD_DIR/.swift-lib && make && make install && cd ../
+cd libkqueue-1.0.4 && ./configure --prefix=$BUILD_DIR/.swift-lib && make && make install && cd ../
+cd libdispatch-0~svn197 && ./configure --prefix=$BUILD_DIR/.swift-lib && make && make install && cd ../
+
+
+git clone https://github.com/apple/swift-corelibs-libdispatch.git && cd swift-corelibs-libdispatch && git submodule init && git submodule update && sh ./autogen.sh && ./configure --with-swift-toolchain=$BUILD_DIR/.swift-lib --prefix=$BUILD_DIR/.swift-lib && make && make install
 
 cd $BUILD_DIR
 status "Building Package"
@@ -66,9 +75,6 @@ swift build --configuration release | indent
 status "Copying dynamic libraries"
 mkdir -p $BUILD_DIR/.swift-lib
 cp $SWIFT_PATH/usr/lib/swift/linux/*.so $BUILD_DIR/.swift-lib
-
-cp $compile_buildpack_dir/compile-extensions/Dispatch.swiftmodule $BUILD_DIR/.swift-lib
-cp $compile_buildpack_dir/compile-extensions/libdispatch.so $BUILD_DIR/.swift-lib
 
 status "Copying binaries to 'bin'"
 mkdir -p $BUILD_DIR/.swift-bin
