@@ -82,7 +82,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib:$compile_buildpack
 #echo "$var2"
 
 tar -xf $compile_buildpack_dir/compile-extensions/includes.tar -C $SWIFT_PATH/usr/include
-tar -xf $compile_buildpack_dir/compile-extensions/lib.tar -C /usr/lib/x86_64-linux-gnu/
+tar -xf $compile_buildpack_dir/compile-extensions/lib.tar -C /
 
 cd $BUILD_DIR
 status "Building Package"
