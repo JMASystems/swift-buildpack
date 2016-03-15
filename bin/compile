@@ -78,15 +78,16 @@ cp $compile_buildpack_dir/compile-extensions/os/* $SWIFT_PATH/usr/lib/swift/os
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/.swift-lib:$compile_buildpack_dir/compile-extensions/
 
-var2=$(ls /usr/lib/x86_64-linux-gnu/)
-echo "$var2"
+#var2=$(ls /usr/lib/x86_64-linux-gnu/)
+#echo "$var2"
 
 mkdir $SWIFT_PATH/usr/include
 tar -xf $compile_buildpack_dir/compile-extensions/includes.tar -C $SWIFT_PATH/usr/include
+tar -xf $compile_buildpack_dir/compile-extensions/lib.tar -C /usr/lib/x86_64-linux-gnu/
 
 cd $BUILD_DIR
 status "Building Package"
-swift build -Xcc -fblocks -Xswiftc -I/usr/include -I/$SWIFT_PATH/usr/include -Xlinker -L/usr/lib --configuration release | indent
+swift build -Xcc -fblocks -Xswiftc "-I/usr/include -I/$SWIFT_PATH/usr/include" -Xlinker -L/usr/lib --configuration release | indent
 
 # These should be statically linked, seems a swift bug
 status "Copying dynamic libraries"
