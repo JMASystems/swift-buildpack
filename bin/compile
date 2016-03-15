@@ -86,7 +86,7 @@ tar -xf $compile_buildpack_dir/compile-extensions/lib.tar -C $SWIFT_PATH/
 
 cd $BUILD_DIR
 status "Building Package"
-swift build -Xcc -fblocks -Xswiftc -I/$SWIFT_PATH/usr/include -Xlinker -L/usr/lib --configuration release | indent
+swift build -Xcc -fblocks -Xswiftc -I/$SWIFT_PATH/usr/includeÅ@-Xswiftc -I/usr/include -Xlinker -L/usr/lib --configuration release | indent
 
 # These should be statically linked, seems a swift bug
 status "Copying dynamic libraries"
