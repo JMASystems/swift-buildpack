@@ -32,6 +32,8 @@ source $compile_buildpack_dir/bin/common.sh
 
 BUILDPACK_PATH=$compile_buildpack_dir source $compile_buildpack_dir/compile-extensions/lib/common
 
+apt-get install -q -y nodejs npm git wget clang dh-autoreconf pkg-config libkqueue0
+
 mkdir -p $CACHE_DIR
 cd $CACHE_DIR
 
